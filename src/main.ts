@@ -1,40 +1,46 @@
 import 'dotenv/config'
-import  mongoose from 'mongoose';
-import express, {Request, Response} from "express";
-import cors from "cors"
+import express, { Request, Response} from 'express'
+import mongoose from 'mongoose'
+import cors from 'cors'
+
+import router from './routes/index.js'
+
 
 const app = express()
 
-app.use(cors({
-    credentials: true
-}))
+
 app.use(express.json())
+app.use(cors())
+app.get('/',(req:Request,res:Response)=>{
+    console.log(req.query);
+    
+    res.send('ncjskbj')
+})
 
 
-app.get('/', (req: Request, res:Response)=>{
-    console.log(req.query)
-    res.status(200).send("hello")
-})
-app.post('/p', (req, res)=>{
-    console.log(req.body)
-    res.status(200).send("hello")
-})
+
+
+
+
+
+app.use("/factory",router)
+
 
 async function run(): Promise<void> {
-    try {
-        const DB: string | undefined = process.env.DB_URL
-        if (DB !== undefined) {
-            console.log(DB);
-            await mongoose.connect(DB);
-        } else {
-            console.error('Переменная DB не определена в переменных среды.');
-        }
-        app.listen(4000, () => {
-            console.log('🚀',`http://${process.env.HOST}:${process.env.PORT}`);
-        });
-    } catch (error: unknown | undefined) {
-        console.log(error);
+  try {
+    const DB: string | undefined = process.env.DB_URL
+    if (DB !== undefined) {
+      console.log(DB)
+      await mongoose.connect(DB)
+    } else {
+      console.error('Переменная DB не определена в переменных среды.')
     }
+    app.listen(process.env.PORT, () => {
+      console.log('🚀', `http://${process.env.HOST}:${process.env.PORT}`)
+    })
+  } catch (error: unknown | undefined) {
+    console.log("Ошика соединения сервера",error)
+  }
 }
 
-run();
+run()
