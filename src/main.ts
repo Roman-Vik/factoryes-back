@@ -1,31 +1,14 @@
 import 'dotenv/config'
-import express, { Request, Response} from 'express'
+import express from 'express'
 import mongoose from 'mongoose'
 import cors from 'cors'
 import router from './routes/index.js'
-import { fileURLToPath } from 'url';
-import path,{ dirname } from 'path';
 
 const app = express()
 app.use(express.json())
 app.use(cors())
 
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-//  сообщаем экспресс-модулю, что публичный каталог - это все для ресурсов нашего сайта
-app.use(express.static(path.join(__dirname, 'public')));
-// sendFile will go here
-app.get('/', function(req:Request,res:Response) {
-  res.sendFile(path.join(__dirname, '/public/pages/main.html'));
-});
-app.get('/table', function(req:Request,res:Response) {
-  res.sendFile(path.join(__dirname, '/public/pages/table.html'));
-});
-
 app.use("/factory",router)
-
 
 async function run(): Promise<void> {
   try {

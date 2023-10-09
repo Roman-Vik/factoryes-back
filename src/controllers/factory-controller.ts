@@ -24,7 +24,6 @@ export class FactoryRouts {
     try {
       const createFactory = await factoryService.create(req.body)
       res.status(200).json(createFactory)
-      res.status(200).json('Create factory')
     } catch (error) {
       res.status(500).json({ 'Create factory': error })
       console.log('Ошибка добавления завода', error)
@@ -36,20 +35,19 @@ export class FactoryRouts {
       const updatedFactory = await factoryService.update(post._id, post)
       res.status(200).json(updatedFactory)
     } catch (error) {
-      res.status(500).json({ 'Create factory': error })
+      res.status(500).json({ 'Update factory': error })
       console.log('Ошибка обновления завода', error)
     }
   }
   async delete(req: Request, res: Response) {
     try {
-      const id = req.params.id
-      const deleteFactory = await factoryService.delete(id)
+      const post = req.body
+      const deleteFactory = await factoryService.delete(post)
       res.status(200).json(deleteFactory)
     } catch (error) {
-      res.status(500).json({ 'Create factory': error })
+      res.status(500).json({ 'Delete factory': error })
       console.log('Ошибка удаления завода', error)
     }
   }
 }
-
 export default new FactoryRouts()

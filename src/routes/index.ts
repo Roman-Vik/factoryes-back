@@ -6,6 +6,6 @@ router.get('/',  factoryController.getAll)
 router.get('/:id',factoryController.getOne)
 router.post('/',factoryController.create)
 router.put('/:id',factoryController.update)
-router.delete('/:id',factoryController.delete)
+router.delete('/',factoryController.delete)
 
 export default router

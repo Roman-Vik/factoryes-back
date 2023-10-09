@@ -27,11 +27,11 @@ class FactoryService {
     }
     return updatedFactory
   }
-  async delete(id: string) {
-    if (!id) {
+  async delete(post:Factory) {
+    if (!post) {
       throw new Error('id не указан')
     }
-    const deleteFactory = await FactoryModel.findByIdAndDelete(id)
+    const deleteFactory = await FactoryModel.deleteMany(post)
     return deleteFactory
   }
 }
