@@ -1,14 +1,15 @@
-FROM node 
+# Этап сборки для разработки
+FROM node:18-alpine as development
 
-WORKDIR /app
-
-COPY . .
+WORKDIR /usr/src/app
 
 COPY package.json package-lock.json ./
 RUN npm install
 
-RUN npm install -g typescript ts-node
-
 EXPOSE 4000
 
-CMD ["sh", "-c", "npm run dev && npx nodemon"]
+COPY . .
+
+RUN npm run build
+
+CMD [ "node", "dist/main.js" ]
